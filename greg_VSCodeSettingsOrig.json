@@ -1,0 +1,11 @@
+
+{
+    "workbench.colorTheme": "Visual Studio Dark",
+    "powershell.powerShellDefaultVersion": "Windows PowerShell (x86)",
+    "powershell.powerShellExePath": "c:\\Program Files\\PowerShell\\7\\pwsh.exe",
+    "terminal.integrated.shell.windows": "c:\\Program Files\\PowerShell\\7\\pwsh.exe",
+    "git.path": "C:\\Program Files\\Git\\bin\\got.exe"
+}
+
+
+
