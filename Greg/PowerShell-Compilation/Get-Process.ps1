@@ -174,3 +174,111 @@ Priority (Thread Priority): determines the relative importance of individual tas
 
 #>
 #end
+
+
+# Example 5: Add a property to the default `Get-Process` output display
+
+Get-Process -Name pwsh | Format-Table -Property @(
+    @{ Name = 'NPM(K)'; Expression = { [int] ($_.NPM / 1KB) } }
+    @{ Name = 'PM(M)';  Expression = { [int] ($_.PM / 1MB) } }
+    @{ Name = 'WS(M)';  Expression = { [int] ($_.WS / 1MB) } }
+    @{ Name = 'CPU(s)'; Expression = { if ($_.CPU) { $_.CPU.ToString('N') } } }
+    'Id'
+    @{ Name = 'SI'; Expression = 'SessionId' }
+    'ProcessName'
+    'StartTime'
+) -AutoSize
+
+
+<#
+
+This example retrieves processes from the local computer;
+and pipes each Process object to the Format-Table cmdlet.
+
+Format-Table recreates the default output display of a Process object
+using a mixture of property names and calculated properties.
+
+The display includes an additional StartTime property not present
+in the default display.
+
+
+SAMPLE of Try-Catch
+try {
+    Get-Process -Name pwsh | Format-Table -Property @(-!!
+    @{ Name = 'NPM(K)'; Expression = { [int] ($_.NPM / 1KB) } } ) asdfadfadf #garbage
+}
+catch {
+    Write-Output -ForegroundColor Yellow -BackgroundColor Black "Terminating Error/Exception Happens - $($Error.Exception.Message)"
+}
+
+#>
+#end
+
+
+# Example 6: Get version information for a process
+
+Get-Process -Name pwsh -FileVersionInfo
+
+<#
+
+This command uses the FileVersionInfo parameter
+to get file version information for the main module of the pwsh process.
+
+The main module is the file used to start the process,
+which in this case is pwsh.exe.
+
+To use this command with processes that you don't own
+on Windows Vista and later versions of Windows,
+you must run PowerShell with elevated user rights (Run as administrator).
+
+
+#>
+#end
+
+
+# Example 7: Get modules loaded with the specified process
+
+Get-Process -Name SQL* -Module
+
+<#
+
+This command uses the Module parameter
+to get the modules loaded by all processes
+with a name beginning with SQL.
+
+To use this command with processes
+that you don't own on Windows Vista and later versions of Windows,
+you must run PowerShell with elevated user rights (Run as administrator).
+
+#>
+
+
+# Example 8: Find the owner of a process
+
+Get-Process -Name pwsh -IncludeUserName
+
+# Complex Way
+
+Get-CimInstance -ClassName Win32_Process -Filter "name='pwsh.exe'" |
+    Invoke-CimMethod -MethodName GetOwner
+
+
+<#
+The first command shows how to get the owner of a process.
+The output reveals that the owner is DOMAIN01\user01.
+
+
+
+The second pipeline shows a different way
+to get the owner of a process using Get-CimInstance
+and Invoke-CimMethod.
+
+The Win32_Process class with a filter retrieves pwsh processes
+and the invoked GetOwner() method returns information
+on the process's Domain and User.
+
+This method is only available on Windows
+and doesn't require elevated user rights.
+
+#>
+#end
