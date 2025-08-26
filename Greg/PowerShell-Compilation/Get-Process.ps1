@@ -234,6 +234,7 @@ you must run PowerShell with elevated user rights (Run as administrator).
 
 #>
 #end
+#end
 
 
 # Example 7: Get modules loaded with the specified process
@@ -251,6 +252,7 @@ that you don't own on Windows Vista and later versions of Windows,
 you must run PowerShell with elevated user rights (Run as administrator).
 
 #>
+#end
 
 
 # Example 8: Find the owner of a process

@@ -337,3 +337,187 @@ catch {
     write-output "No idea what that was"
 }
 #Endregion
+
+
+# 5. Error Action
+
+
+<#
+We're going to perform ErrorAction
+
+We add this to th end of to our regular PowerShell commands -ErrorAction
+
+-ErrorAction Stop
+
+NOTE: it now makes it terminating
+
+
+try {
+    Get-Content -Path r:\doesnotexist\nothere.txt -ErrorAction Stop
+}
+catch {
+    Write-Output "Something went wrong"
+}
+
+NOTE:
+Notice that it doesn't output the regular error;
+It outputs something went wrong.
+That command executing now has an error action of stop - Terminating.
+Hence, catch can well catch it.
+
+
+Different Type of Error Actions
+
+	1. -ErrorAction Stop
+	2. -ErrorAction SilentlyContinue
+	3. -ErrorAction Supend
+
+NOTE: There's a whole bunch of different options
+
+
+
+-ErrorAction SilentlyContinue
+
+
+try {
+    Get-Content -Path r:\doesnotexist\nothere.txt -ErrorAction SilentlyContinue
+}
+catch {
+    Write-Output "Something went wrong"
+}
+
+
+NOTE: when we run this; there's no error, but it did still error.
+It just silently continued if I do get error.
+
+It's be like," i can see it's still there. it's still that hey drive not found
+
+i can still see hey notthere42.txt  proving it actually was this error"
+
+NOTE: that is actually causing this but it just silently carried on
+
+NOTE: There are differen kinds/types of ErrorAction
+
+#>
+#end
+
+
+#Region Make terminating with ErrorAction
+#Make our normal non-terminating error a terminating with the error action
+try {
+    Get-Content -Path r:\doesnotexist\nothere.txt -ErrorAction Stop
+}
+catch {
+    Write-Output "Something went wrong"
+}
+
+# -ErrorAction SilentlyContinue
+try {
+    Get-Content -Path r:\doesnotexist\nothere.txt -ErrorAction SilentlyContinue
+}
+catch {
+    Write-Output "Something went wrong"
+}
+#Endregion
+
+
+#Region Types of error action
+#Note there are other types of ErrorAction
+Get-Content -Path r:\doesnotexist\nothere42.txt -ErrorAction SilentlyContinue
+Get-Error #still errored, we just didn't see it!
+#Endregion
+
+
+
+# 6 . 	Error details
+
+<#
+
+We can absolute look on the details of Error.
+
+
+try {
+    Get-Content -Path r:\doesnotexist\nothere.txt -ErrorAction Stop
+}
+catch {
+    $ErrorMessage = $_.Exception.Message
+    Write-Output "Something went wrong - $ErrorMessage"
+    write-host -ForegroundColor Blue -BackgroundColor White $_.Exception #Entire exception
+    #Information about where exception was thrown
+    $PSItem.InvocationInfo | Format-List * #can also use $PSItem instead of $_
+}
+
+
+We're actually going to get the actual error message.
+
+NOTE: $_ is similar with $PSItem
+
+Interchangeability:
+$_ is an alias for $PSItem, and they can be used interchangeably in most scenarios.
+
+$PSItem was introduced in PowerShell 3.0 to provide a more descriptive and readable alternative to $_.
+
+
+$ErrorMessage = $_.Exception.Message
+
+NOTE:
+I'm going to look at the exception and the message
+I'm going to store that in this $ErrorMessage variable
+
+So, instead of having that kind of glaring output it normally gives;
+I can now control that.
+
+What i'm going to do is Write-Output.
+"Hey something went wrong in the message"
+
+Then, i'm going to use Write-Host,
+so i can do some different formatting to output the entire exception
+
+And then also to demonstrate i can use $PSItem instead of $_
+
+I'm going to output the invocation info
+
+I.E. the information that led up to actually having this where the calls came from
+
+
+
+Command Execution
+
+NOTE:
+
+So now if i take this and execute;
+we had a whole bunch of different information
+
+So firstly okay we get our something went wrong
+and then it added the message
+
+Then we can see here i've actually got my exception -  with my blue on white output
+
+And then i can see that invocation info:
+
+	the invocation name, pipeline length
+
+I can see all the things that actually led up to that. So, get that fullset of information
+
+So t, is where it gets really powerful that
+
+Hey i can use the exception, i can get the details of the exception.
+
+There's all different components actually to that exception; and the documentation goes into hugedetails about this
+
+#>
+
+
+#Region Looking at details
+#Can look at the error details
+try {
+    Get-Content -Path r:\doesnotexist\nothere.txt -ErrorAction Stop
+}
+catch {
+    $ErrorMessage = $_.Exception.Message
+    Write-Output "Something went wrong - $ErrorMessage"
+    write-host -ForegroundColor Blue -BackgroundColor White $_.Exception #Entire exception
+    #Information about where exception was thrown
+    $PSItem.InvocationInfo | Format-List * #can also use $PSItem instead of $_
+}
+#Endregion
