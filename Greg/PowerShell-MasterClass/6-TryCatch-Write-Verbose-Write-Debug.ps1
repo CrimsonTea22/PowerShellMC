@@ -21,6 +21,7 @@ Contents:
 
 #>
 
+
 # 1 . 	Introduction
 
 <#
@@ -30,6 +31,7 @@ and also have a quick look at the Write-Verbose, Write-Debug that might help us 
 
 #>
 #end
+
 
 
 # 2 .	 Error variable
@@ -176,6 +178,7 @@ $Error.clear()
 #endregion
 
 
+
 # 3 . 	Custom error variable
 
 <#
@@ -247,6 +250,7 @@ if($BadThings)
     Write-Host -ForegroundColor Blue -BackgroundColor White "Had an issue, $($BadThings.Exception.Message)"
 }
 #Endregion
+
 
 
 # 4 . 	Try-Catch
@@ -337,6 +341,7 @@ catch {
     write-output "No idea what that was"
 }
 #Endregion
+
 
 
 # 5. Error Action
@@ -488,19 +493,20 @@ NOTE:
 So now if i take this and execute;
 we had a whole bunch of different information
 
-So firstly okay we get our something went wrong
+So firstly okay we get our something went wrong;
 and then it added the message
 
-Then we can see here i've actually got my exception -  with my blue on white output
+Then we can see here i've actually got my exception -
+with my blue on white output
 
 And then i can see that invocation info:
 
 	the invocation name, pipeline length
 
-I can see all the things that actually led up to that. So, get that fullset of information
+I can see all the things that actually led up to that.
 
-So t, is where it gets really powerful that
-
+So, get that fullset of information.
+So, this is where it gets really powerful that
 Hey i can use the exception, i can get the details of the exception.
 
 There's all different components actually to that exception; and the documentation goes into hugedetails about this
@@ -521,3 +527,177 @@ catch {
     $PSItem.InvocationInfo | Format-List * #can also use $PSItem instead of $_
 }
 #Endregion
+
+
+
+# 7 . 	Error specific Catch
+
+<#
+
+
+Error specific Catch
+
+Potentially, I may want to do different things depending on the type of error
+
+So, what i can actually do is have different types of catch
+
+
+
+try {
+    asdf-asdfasd #garbage and is terminating
+}
+catch [System.Management.Automation.CommandNotFoundException] {
+    write-output "no idea what this command is"
+}
+catch {
+    $_.Exception
+}
+
+
+
+Here, I've got this gobbledy gook error
+
+So, this is going to be a command not found
+
+So, notice here I've got a catch -
+if it is command not found;
+and then i've got kind of a default catch for everything else
+
+So if i do the Try-Catch here calling my non-existent command
+
+
+
+
+Command Execution
+
+hey no idea what this command is
+
+That's the output i get because it was a command not found exception
+
+i don't get it just outputting the overall exception
+
+so i can do some really nice things in here to actually work out
+i might get different types of exception
+i want to do different things
+
+so i can use that with the actual type of exception i see
+
+#>
+
+
+#Region Types of catch
+#Catch can be used with specific types of exception but needs to be terminating type
+try {
+    asdf-asdfasd #garbage and is terminating
+}
+catch [System.Management.Automation.CommandNotFoundException] {
+    write-output "no idea what this command is"
+}
+catch {
+    $_.Exception
+}
+#Endregion
+
+
+# 8 . 	ErrorActionPreference
+
+<#
+What if i can't use that error action stop?
+
+$ErrorActionPreference
+
+	- There's an error action preference
+	- This is a variable.
+
+What we could actually do if we're in a situation where I can't set the error action to stop?
+Maybe i'm calling outside of powershell?
+
+what i could actually do is i could change the default Error Action Preference to stop
+
+Now i want to be careful with this.
+I don't want to just set it to a new value and then just carry on
+
+So, what i would do is i'd want to store the current value.
+
+Do whatever i want to do after I've set it to what i want;
+i stop and then put it back.
+
+Which is what we'regoing to do in this script
+
+
+$ErrorActionPreference
+
+try {
+    $CurrentErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = "Stop"
+    Get-Content -Path r:\doesnotexist\nothere.txt #any command here, e.g. cmd /c
+}
+catch {
+    Write-Output "Something went wrong"
+    write-host -ForegroundColor Blue -BackgroundColor White $_.Exception.Message
+}
+Finally {
+    $ErrorActionPreference = $CurrentErrorActionPreference
+}
+
+
+First thing is we're going to capture the current value into a current error action preference;
+then i'm going to set it to what i want it to be i stop
+
+And i'm doing that regular Get-Content command;
+but notice i don't have the dash error action at the end of it
+
+Now i have a Catch something went wrong write out the message;
+But then i need to put it back no matter what whether it failed or not;
+I have to set the $ErrorActionPreference back to what it was before
+
+so this is where we use Finally
+
+So, what Finally lets us do is error or not this code will always run
+
+So, Finally set the  $ErrorActionPreference back to what it was originally.
+I.E. that current error action preference variable.
+I created where i copied in the originalvalue
+
+So,  i'm going to set it back
+
+
+
+Command Execution.
+
+
+So, it it got called even though i didn't do the ErrorAction -Stop
+because i set the default, and it outputted in my formatting -- the message with that blue on white
+
+but if i actually look at my  $ErrorActionPreference
+
+it's still continue, it all got set back
+
+so if i have a scenario where i can't do ErrorAction -Stop
+I want to still handle that in my try catch;
+then i can set the$ErrorActionPreference but make sure you set it backafterwards
+
+#>
+
+
+
+#Region Using ErrorActionPreference
+#There is a default error action that is overriden by the -ErrorAction
+
+$ErrorActionPreference
+
+#This can be useful when we cannot set ErrorAction, e.g. a non-PowerShell call
+
+try {
+    $CurrentErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = "Stop"
+    Get-Content -Path r:\doesnotexist\nothere.txt #any command here, e.g. cmd /c
+}
+catch {
+    Write-Output "Something went wrong"
+    write-host -ForegroundColor Blue -BackgroundColor White $_.Exception.Message
+}
+Finally {
+    $ErrorActionPreference = $CurrentErrorActionPreference
+}
+#End Region
