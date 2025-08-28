@@ -701,3 +701,114 @@ Finally {
     $ErrorActionPreference = $CurrentErrorActionPreference
 }
 #End Region
+
+
+# 9 . 	Errors from cmd.exe
+
+<#
+
+(1)
+
+$executionoutput = Invoke-Expression "cmd.exe /c dir r:\nofolder\nofile.file"
+$executionoutput #Nope
+
+	• I'm calling something from cmd.exe
+
+	• Command used: Invoke-Expression
+
+	• Running the command: cmd.exe /c dir to the non-existent file: r:\nofolder
+
+NOTE:
+
+	•  /c is not a direct parameter used with powershell.exe or pwsh.exe
+
+	• /c is a parameter commonly associated with cmd.exe,
+    the Windows Command Prompt.
+
+	•  When you see cmd /c powershell,
+    it means that the cmd.exe executable is being invoked,
+    and the /c parameter instructs cmd.exe
+    to execute the subsequent command (in this case, powershell)
+    and then terminate the cmd.exe process.
+
+
+Capturing The Output:
+
+PS C:\PowerShellMC> $executionoutput = Invoke-Expression "cmd.exe /c dir r:\nofolder\nofile.file"
+$executionoutput #Nope
+
+Output:
+The system cannot find the path specified.
+
+	• The error is  actually on my screen - The system cannot find the path specified
+
+
+Capture output of:$executionoutput #Nope
+
+Output:
+<nothing went to screen>
+
+	• No output error
+
+	• Because we're in the command environment; there's two different output.
+
+		1. Standard Out
+		2. Standard Error
+
+
+
+
+(2)
+
+$executionoutput = Invoke-Expression "cmd.exe /c dir r:\nofolder\nofile.file 2>&1"
+$executionoutput
+
+
+	• If I want to catch the errors, we redirect 2 to 1.
+
+		i.e. standard error go to standardout
+
+
+$executionoutput = Invoke-Expression "cmd.exe /c dir r:\nofolder\nofile.file 2>&1"
+
+Output:
+<nothing went to screen>
+
+$executionoutput
+
+Output:
+The system cannot find the path specified.
+
+
+	• so now if i execute this
+
+	$executionoutput = Invoke-Expression "cmd.exe /c dir r:\nofolder\nofile.file 2>&1"
+
+
+		○ notice nothing went to screen
+
+	•  and my variable to capture the output now has that error in it
+
+NOTE: this is where we leverage Try and Catch
+
+NOTE: Not complicated. We can have different blocks, different types of catch depending on what I wanted.
+
+#>
+#end
+
+
+#Region Errors from cmd.exe
+#For cmd execution it writes to its own error stream we can capture
+
+$executionoutput = Invoke-Expression "cmd.exe /c dir r:\nofolder\nofile.file"
+$executionoutput #Nope
+
+
+#Need STDERR (2) to go to STDOUT (1)
+
+$executionoutput = Invoke-Expression "cmd.exe /c dir r:\nofolder\nofile.file 2>&1"
+$executionoutput
+#Endregion
+
+
+#10.
