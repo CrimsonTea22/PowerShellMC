@@ -811,4 +811,194 @@ $executionoutput
 #Endregion
 
 
-#10.
+# 11. 	Using CmdletBinding, Write-Verbose and Write-Debug
+<#
+
+
+but maybe the above was a far more complicated script;
+it's obviously should be super super simple
+
+(1)
+
+function Get-RandomMessage
+{
+    #Need cmdlet binding for the standard verbose, debug etc options
+    [CmdletBinding()]
+    Param([parameter(ValueFromRemainingArguments=$true)][String[]] $args)
+    Write-Verbose "Generating a random number"
+    $number=Get-Random -Maximum 10
+    Write-Verbose "Number is $number"
+    Write-Debug "Start of switch statement"
+    switch ($number)
+    {
+        {$_ -lt 4} { write-output "Howdy Y'all"; Write-Debug "Less than 4" }
+        {$_ -ge 4 -and $_ -lt 7} { write-output "Good morning to thee"; Write-Debug "4-6"}
+        Default { write-output "Top of the morning"; Write-Debug "Default"}
+    }
+}
+
+
+	• Seeing more debugging infomration
+
+	• Write-Verbose and Write-Debug
+
+	• Three main things:
+
+	• 1. Adding cmdlet binding. It gives us the ability to use things like -verbose -debug
+
+	• Looking at the Get-RandomMessage -
+
+		NOTE: There's no auto completion when doing dash. Even when hitting the tab.
+
+		NOTE: The cmdlet binding will work on this.
+
+
+(2)
+
+Write-Verbose "Generating a random number"
+$number=Get-Random -Maximum 10
+Write-Verbose "Number is $number"
+
+	• Writing the verbose "Generating a random number"
+
+	• I'm outputting what the value of the variable
+
+	• It's just give me some extra info;
+	now maybe if i'm was having problems in the future;
+	or whatever that is now i've got a right debug start of switch statement
+
+(3)
+
+ Write-Debug "Start of switch statement"
+    switch ($number)
+    {
+        {$_ -lt 4} { write-output "Howdy Y'all"; Write-Debug "Less than 4" }
+        {$_ -ge 4 -and $_ -lt 7} { write-output "Good morning to thee"; Write-Debug "4-6"}
+        Default { write-output "Top of the morning"; Write-Debug "Default"}
+    }
+}
+
+
+
+Write-Debug "Start of switch statement"
+
+	• then i've added to the end of each of my statements
+
+Write-output "Howdy Y'all"; Write-Debug "Less than 4"
+write-output "Good morning to thee"; Write-Debug "4-6"
+write-output "Top of the morning"; Write-Debug "Default"
+
+	• i've used a semicolon rather than doing multiple lines
+
+
+	   {$_ -lt 4} { write-output "Howdy Y'all"; Write-Debug "Less than 4" }
+        {$_ -ge 4 -and $_ -lt 7} { write-output "Good morning to thee"; Write-Debug "4-6"}
+        Default { write-output "Top of the morning"; Write-Debug "Default"}
+
+
+	• Logic Part
+
+	• So if i define this function Get-RandomMessage by just again calling this little bit of code below it.
+
+
+(4)
+
+
+
+Capturing The Output:
+
+
+function Get-RandomMessage
+{
+    #Need cmdlet binding for the standard verbose, debug etc options
+    [CmdletBinding()]
+    Param([parameter(ValueFromRemainingArguments=$true)][String[]] $args)
+    Write-Verbose "Generating a random number"
+    $number=Get-Random -Maximum 10
+    Write-Verbose "Number is $number"
+    Write-Debug "Start of switch statement"
+    switch ($number)
+    {
+        {$_ -lt 4} { write-output "Howdy Y'all"; Write-Debug "Less than 4" }
+        {$_ -ge 4 -and $_ -lt 7} { write-output "Good morning to thee"; Write-Debug "4-6"}
+        Default { write-output "Top of the morning"; Write-Debug "Default"}
+    }
+
+
+PS C:\PowerShellMC\Assets> Get-RandomMessage
+Good morning to thee
+
+
+Cmdlet binding
+
+Get-RandomMessage
+
+	• now if i do upper undo dash and tab;
+	suddenly i have these options: Arguments, verbose, debug, and others.
+
+	 i have these other things that i can now do because of that command lit binding
+
+
+
+
+Using the cmdlet binding
+
+
+PS C:\PowerShellMC\Assets> Get-RandomMessage -Verbose
+VERBOSE: Generating a random number
+VERBOSE: Number is 8
+Top of the morning
+
+	• so it only shows me that if i add that dash verbose to the execution
+
+
+PS C:\PowerShellMC\Assets> Get-RandomMessage -Debug
+DEBUG: Start of switch statement
+Howdy Y'all
+DEBUG: Less than 4
+
+
+	• maybe i'm having problems i don't understand which logic path is going down
+
+	• so i could add -debug
+
+
+PS C:\PowerShellMC\Assets> Get-RandomMessage -Debug -Verbose
+VERBOSE: Generating a random number
+VERBOSE: Number is 6
+DEBUG: Start of switch statement
+Good morning to thee
+DEBUG: 4-6
+
+
+	• combine those things i could do debug and verbose
+
+
+So those helped me much more than me this original script i had at the top
+
+
+Commenint an uncommenting is ugly.
+
+Write-Verbose and Write-Debug is powerful.
+
+This helps us to troubleshoot and gather more information.
+
+#>
+
+function Get-RandomMessage
+{
+    #Need cmdlet binding for the standard verbose, debug etc options
+    [CmdletBinding()]
+    Param([parameter(ValueFromRemainingArguments=$true)][String[]] $args)
+    Write-Verbose "Generating a random number"
+    $number=Get-Random -Maximum 10
+    Write-Verbose "Number is $number"
+    Write-Debug "Start of switch statement"
+    switch ($number)
+    {
+        {$_ -lt 4} { write-output "Howdy Y'all"; Write-Debug "Less than 4" }
+        {$_ -ge 4 -and $_ -lt 7} { write-output "Good morning to thee"; Write-Debug "4-6"}
+        Default { write-output "Top of the morning"; Write-Debug "Default"}
+    }
+}
+#end
