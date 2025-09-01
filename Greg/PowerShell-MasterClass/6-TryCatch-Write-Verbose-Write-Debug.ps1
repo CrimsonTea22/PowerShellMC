@@ -811,6 +811,91 @@ $executionoutput
 #Endregion
 
 
+
+#10 10. 	Messages in scripts
+
+<#
+
+Sentiments:
+
+Write-Output; Write-Verbose; Write-Debug
+
+When we hit a problem, I quickly add in a Write-output in my code.
+
+This is to try and see where it may be a logic path it's going.
+
+Try and see what the variables are;
+
+And if i want to see the variables - really i should just be debugging and then i can add watches on variables
+
+But maybe… I just want some information;
+Or maybe instead of commenting my code (often gets overlooked and doesn'tget updated)
+
+Maybe i want to be able to run it and actually have more output in certain scenarios
+
+Maybe there's a problem i want to see different types of information;
+
+And rather than adding in commands and comment in the main code and adding them…. Write-Verbose and Write-Debug can be super super powerful
+
+
+
+function Get-RandomMessageSad
+{
+    $number=Get-Random -Maximum 10
+    switch ($number)
+    {
+        {$_ -lt 4} { write-output "Howdy Y'all"}
+        {$_ -ge 4 -and $_ -lt 7} { write-output "Good morning to thee"}
+        Default { write-output "Top of the morning"}
+    }
+}
+
+
+	• Function
+
+		AI Overview
+
+		In computer programming, a function is a self-contained block of code designed to perform a specific task or a set of related tasks. Functions serve several key purposes:
+
+			1. Modularity and Organization
+			2. Code Reusability
+			3. Abstraction
+			4. Parameters and Return Values
+
+	• It's gonna create a random message
+
+	• It's gonna output either:
+
+		Howdy Y'all
+		Good morning to thee
+		Top of the morning
+
+	• Function is used.
+	• It's going to create a random numeber
+	• Depending on the number randomization set; it's gonna output the random message.
+	• It would be based on the code ( lt, ge and lt, default)
+
+
+Capture The Output:
+
+PS C:\PowerShellMC\Assets> Get-RandomMessageSad
+Howdy Y'all
+
+#>
+
+function Get-RandomMessageSad
+{
+    $number=Get-Random -Maximum 10
+    switch ($number)
+    {
+        {$_ -lt 4} { write-output "Howdy Y'all"}
+        {$_ -ge 4 -and $_ -lt 7} { write-output "Good morning to thee"}
+        Default { write-output "Top of the morning"}
+    }
+}
+#end
+
+
 # 11. 	Using CmdletBinding, Write-Verbose and Write-Debug
 <#
 
