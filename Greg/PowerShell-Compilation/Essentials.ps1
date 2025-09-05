@@ -14,13 +14,7 @@ Start-Process control netconnections
 Start-Process 'ms-settings:storagesense'
 
 
-
-
-
-
-
 #Practice Scripts
-
 
 # $args
 

@@ -284,3 +284,44 @@ and doesn't require elevated user rights.
 
 #>
 #end
+
+
+# Example 9: Use an automativ variable to identify the process hosting the current section
+
+Get-Process -Name pwsh
+
+Get-Process -Id $PID
+
+<#
+
+These commands show how to use the $PID automatic variable
+to identify the process that's hosting the current PowerShell session.
+
+You can use this method to distinguish the host process
+from other pwsh processes that you might want to control.
+
+The first command gets all pwsh processes running.
+The second command gets the pwsh process that's hosting the current session.
+
+#>
+#end
+
+
+# Example 10: Get all processes that have a main window title and display them in a table
+
+Get-Process |
+    Where-Object -Property MainWindowTitle |
+    Format-Table -Property Id, Name, MainWindowTitle -AutoSize
+
+
+<#
+This pipeline gets all processes that have a main window title,
+and displays them in a table with the process ID and name.
+
+MainWindowTitle is one of many useful properties of the Diagnostics.
+
+Process object type that Get-Process returns.
+
+To view all properties, use Get-Process | Get-Member.
+#>
+#end
