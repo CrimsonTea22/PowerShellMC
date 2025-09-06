@@ -262,4 +262,377 @@ You cannot remove a specific index.
 
 
 
-# ArrayList
+
+
+# ArrayList - the most picked. much better.
+
+
+# Example 1: Creating an ArrayList 1
+
+$mylist1 = [System.Collections.ArrayList]@()
+
+$mylist1.GetType()
+
+<#
+
+In this method, the ArrayList is casted into the Array.
+
+It is an added task in the background.
+
+#>
+#end
+
+
+
+
+
+# Example 2: Creating an ArrayList 2 - recommended way
+
+$mylist2 = New-Object -TypeName System.Collections.ArrayList
+
+$mylist2.GetType()
+
+<#
+In this method, it just strictly create a new item of ArrayList Type.
+#>
+#end
+
+
+
+
+
+# Example 3: IsFixedSize
+
+$myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.IsFixedSize
+
+<#
+
+PS C:\PowerShellMC\Greg\PowerShell-Compilation> $myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.IsFixedSize
+False
+
+Array - fixed size
+ArrayList - not a fixed size
+
+#>
+#end
+
+
+
+
+
+# Example 4: Adding Elements into the ArrayList - .Add
+
+$myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.Add("Test1")
+$myList.Add("Test2")
+
+$mylist
+
+<#
+
+PS C:\PowerShellMC\Greg\PowerShell-Compilation> $myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.Add("Test1")
+$myList.Add("Test2")
+
+$mylist
+0
+1
+
+You're adding index to the array list
+#>
+#end
+
+
+
+
+
+# Example 5: Nullifying Output
+
+$myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.Add("Test1")
+#[void]$myList.Add("Test2")
+
+$myList
+
+<#
+
+PS C:\PowerShellMC\Greg\PowerShell-Compilation> $myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.Add("Test1")
+0
+PS C:\PowerShellMC\Greg\PowerShell-Compilation>
+PS C:\PowerShellMC\Greg\PowerShell-Compilation> $myList.Add("Test1")
+$myList.Add("Test2")
+1
+2
+
+You're adding index to the array list
+#>
+#end
+
+
+
+
+
+
+# Example 6: Adding Elements into the ArrayList - .AddRange
+
+$myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.Add("Test1")
+$myList.Add("Test2")
+$myList.AddRange(@("Test3","Test4"))
+
+$myList
+
+$myList[2]
+
+<#
+
+PS C:\PowerShellMC\Greg\PowerShell-Compilation>
+PS C:\PowerShellMC\Greg\PowerShell-Compilation> $myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.Add("Test1")
+$myList.Add("Test2")
+$myList.AddRange(@("Test3","Test4"))
+
+$myList
+
+$myList[2]
+0
+1
+Test1
+Test2
+Test3
+Test4
+Test3
+
+AddRange allows you to add an array of items
+#>
+#end
+
+
+
+
+
+# Example 7: Removing Elements into the ArrayList - .Remove
+
+$myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.Add("Test1")
+$myList.Add("Test2")
+$myList.AddRange(@("Test3","Test4","Test2"))
+
+$myList.Remove("Test2")
+
+$myList
+
+<#
+
+PS C:\PowerShellMC\Greg\PowerShell-Compilation> $myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.Add("Test1")
+$myList.Add("Test2")
+$myList.AddRange(@("Test3","Test4"))
+
+$myList.Remove("Test2")
+
+$myList
+
+0
+1
+Test1
+Test3
+Test4
+
+ArrayList has a very intuitive removal method.
+
+$myList.Remove("Test2") would only remove the first instance of that same element.
+
+It uses the string.
+
+#>
+#end
+
+
+
+
+
+# Example 8: Removing Elements into the ArrayList - .RemoveAt
+
+$myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.Add("Test1")
+$myList.Add("Test2")
+$myList.AddRange(@("Test3","Test4","Test2"))
+
+$myList.RemoveAt(0)
+
+$myList
+
+<#
+
+PS C:\PowerShellMC\Greg\PowerShell-Compilation> $myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.Add("Test1")
+$myList.Add("Test2")
+$myList.AddRange(@("Test3","Test4","Test2"))
+
+$myList.RemoveAt(0)
+
+$myList
+0
+1
+Test2
+Test3
+Test4
+Test2
+
+
+$myList.RemoveAt(0)
+RemoveAt uses the index.
+
+#>
+#end
+
+
+
+
+# Example 9: Removing Elements into the ArrayList - .RemoveRange
+
+$myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.Add("Test1")
+$myList.Add("Test2")
+$myList.AddRange(@("Test3","Test4"))
+
+$myList.RemoveRange(1,2)
+
+$myList
+
+<#
+
+PS C:\PowerShellMC\Greg\PowerShell-Compilation>
+$myList = New-Object -TypeName System.Collections.ArrayList
+
+$myList.Add("Test1")
+$myList.Add("Test2")
+$myList.AddRange(@("Test3","Test4"))
+
+$myList.RemoveRange(1,2)
+0
+1
+PS C:\PowerShellMC\Greg\PowerShell-Compilation>
+PS C:\PowerShellMC\Greg\PowerShell-Compilation> $myList
+Test1
+Test4
+
+RemoveRange uses indices.
+
+#>
+#end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Performance Difference: Array Vs. ArrayList
+
+# Example 1: Measure-Command
+
+$array=@()
+Measure-Command -Expression {@(0..50000).foreach({$array+=$_})}
+
+<#
+
+PS C:\PowerShellMC\Greg\PowerShell-Compilation> $array=@()
+Measure-Command -Expression {@(0..50000).foreach({$array+=$_})}
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 9
+Milliseconds      : 303
+Ticks             : 93033326
+TotalDays         : 0.000107677460648148
+TotalHours        : 0.00258425905555556
+TotalMinutes      : 0.155055543333333
+TotalSeconds      : 9.3033326
+TotalMilliseconds : 9303.3326
+
+
+9 seconds for the array to iterate through 50000 elements; and add it to the array.
+
+#>
+
+
+$arrayList = New-Object -TypeName System.Collections.ArrayList
+Measure-Command -Expression {@(0..50000).foreach({$arrayList.Add($_)})}
+
+<#
+
+PS C:\PowerShellMC\Greg\PowerShell-Compilation> $arrayList = New-Object -TypeName System.Collections.ArrayList
+Measure-Command -Expression {@(0..50000).foreach({$arrayList.Add($_)})}
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 153
+Ticks             : 1537684
+TotalDays         : 1.77972685185185E-06
+TotalHours        : 4.27134444444444E-05
+TotalMinutes      : 0.00256280666666667
+TotalSeconds      : 0.1537684
+TotalMilliseconds : 153.7684
+
+PS C:\PowerShellMC\Greg\PowerShell-Compilation> $array=@()
+
+153 milliseconds for the array to iterate through 50000 elements; and add it to the array.
+#>
+
+
+#faster -- AddRange
+
+$arrayList = New-Object -TypeName System.Collections.ArrayList
+Measure-Command -Expression {$arrayList.AddRange(@(0..50000))}
+
+<#
+PS C:\PowerShellMC\Greg\PowerShell-Compilation>
+$arrayList = New-Object -TypeName System.Collections.ArrayList
+Measure-Command -Expression {$arrayList.AddRange(@(0..50000))}
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 16
+Ticks             : 168156
+TotalDays         : 1.94625E-07
+TotalHours        : 4.671E-06
+TotalMinutes      : 0.00028026
+TotalSeconds      : 0.0168156
+TotalMilliseconds : 16.8156
+
+
+16 milliseconds for the array to iterate through 50000 elements; and add it to the array.
+
+#>
+#end
