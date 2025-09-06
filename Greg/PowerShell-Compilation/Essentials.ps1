@@ -13,6 +13,12 @@ Start-Process control netconnections
 
 Start-Process 'ms-settings:storagesense'
 
+# Windows Services
+
+services.msc
+
+
+
 
 #Practice Scripts
 

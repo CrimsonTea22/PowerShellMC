@@ -10,6 +10,6 @@ PowerShell Compilations
 	• args
 	• samplecd
     4. Get-Service
-	4.
+	5. New-Object
 
 #>
