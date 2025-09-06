@@ -215,3 +215,40 @@ Container           :
 
 #>
 #end
+
+
+
+# Example 4: Properties - Using a comma separated list
+
+Get-Service -Name w32time |
+    Select-Object -Property Status, Name, DisplayName, ServiceType
+
+
+<#
+
+Status Name    DisplayName                         ServiceType
+ ------ ----    -----------                         -----------
+Running w32time Windows Time Win32OwnProcess, Win32ShareProcess
+
+
+Specific properties can also be selected using a comma-separated list as the value of the Property parameter.
+
+#>
+#end
+
+
+
+
+
+# Example 5:
+
+Get-Service -Name w32time |
+    Select-Object -Property Status, DisplayName, Can*
+
+<#
+
+You can use wildcard characters when specifying property names with Select-Object.
+
+In the following example, use Can* as one of the values for the Property parameter to return all the properties that start with Can. These include CanPauseAndContinue, CanShutdown, and CanStop.
+
+#>

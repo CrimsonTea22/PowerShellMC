@@ -20,7 +20,18 @@ services.msc
 
 
 
+
+
 #Practice Scripts
+
+# Set-Location
+
+param(
+    [string]$Path
+)
+Set-Location $Path
+
+#To Execute: .\<file.ps1> -Path "C:\MyFiles"
 
 # $args
 

@@ -22,6 +22,17 @@ Set-Location is used to change directory or folder.
 #end
 
 
+
+
+
+
+
+
+
+
+
+
+
 #Example 1: User Default Path
 
 # User Default Path
@@ -34,6 +45,10 @@ Wherever path you're in, by issuing the command above, it'll switch you the user
 
 #>
 #End
+
+
+
+
 
 
 #Example 2: Changing Directories
@@ -49,16 +64,9 @@ Set-Location .\Documents\
 
 #
 
-
-
-
 # Moves up one Directory
 
 Set-Location ..
-
-
-
-
 
 
 # Alias of Set-Location
@@ -67,6 +75,9 @@ Get-Alias cd
 
 # NOTE: Alias cd -> Set-Location
 #end
+
+
+
 
 
 #Example 3: Changing Directories with Special Characters in Path; Absolute and Relative Path
@@ -107,6 +118,11 @@ In contrast, a relative path refers to a directory's location in relation to the
         ..documents/report.pdf
 #>
 #end
+
+
+
+
+
 
 
 #Example 4: Using Set-Location for a PowerShell Script

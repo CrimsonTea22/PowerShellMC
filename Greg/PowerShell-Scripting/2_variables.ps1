@@ -121,6 +121,8 @@ $myValue3 = 33
 
 $myResults = $myValue1 + $myValue2 + $myValue3
 
+$myResult
+
 <#
 Mathematical Signs
 
@@ -129,6 +131,7 @@ Mathematical Signs
     *
     /
     -eq
+    -ne
     gt
     lt
     ge
@@ -296,6 +299,7 @@ $myValue1.GetType()
 [int]$myValue1 = 11.11
 
 $myValue1.GetType()
+
 
 [double]$myValue2 = 22.22
 
