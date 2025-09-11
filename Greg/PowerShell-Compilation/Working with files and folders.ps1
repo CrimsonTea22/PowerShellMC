@@ -1,24 +1,31 @@
 
 # Working with files and folders
 
-
 # Contents
 
 <#
+
 1. Get-ChildItem
-2. Example
+
 
 #>
+
+
 
 <#
 
 Navigating through PowerShell drives and manipulating the items on them
 is similar to manipulating files and folders on Windows disk drives.
 
-This article discusses how to deal with specific file and folder manipulation tasks using PowerShell.
+This article discusses how to deal with specific file
+and folder manipulation tasks using PowerShell.
 
 #>
 
+
+
+
+# Get-ChildItem
 
 # Example 1: Listing all files and folders within a folder -Force
 
@@ -76,3 +83,73 @@ and that are neither smaller than 1 megabyte nor larger than 10 megabytes:
 
 #>
 #end
+
+
+
+# Example 4 : ls env:
+
+Get-ChildItem env:
+
+
+
+
+# Example 5: dir / ls
+
+dir
+ls
+
+
+<#
+
+Dir or ls
+	Alias for Get-ChildItem
+	It outputs a series of objects inside the directory
+
+#>
+
+
+
+# Example 5: Sort-Object
+
+Get-ChildItem | Sort-Object
+
+
+
+
+# Example 6: Sort-Object 2
+
+Get-ChildItem | Sort-Object -Property lastwritetime
+
+Get-ChildItem | Get-Member
+
+<#
+
+To determine the property, utilize Get-ChildItem | Get-Member
+OR wrench snippets
+
+#>
+
+
+
+# Example 6: Sort-Object 3
+
+Get-ChildItem | foreach {$_.GetType()}
+Get-ChildItem | foreach {$($_.GetType().fullname)}
+
+Get-ChildItem | foreach {$_.Name}
+Get-ChildItem | foreach {$_.FullName}
+
+Get-ChildItem | foreach {"$($_.GetType().fullname) -eq $_.name"}
+
+<#
+
+	Foreach
+		○ For everything getting passed
+	$_
+		○ passed object
+
+	NOTE: We get the passed objects type and full name
+
+	 $_represents the current pipeline object; and lets you access a property of a piped in object instead of the entire object.
+
+ #>

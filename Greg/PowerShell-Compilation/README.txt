@@ -4,13 +4,14 @@
 PowerShell Compilations
 
 	• Essentials (ongoing)
-	1. Absolute-Vs-Relative -|
-	2. Working with files and folders(ongoing)
-	3. Get-Process
+	1. DeterminingPowerShellVersion
+	2. Absolute-Vs-Relative -|
+	3. Working with files and folders(ongoing)
+	4. Get-Process
 	• args
 	• samplecd
-    4. Get-Service
-	5. New-Object
+    5. Get-Service
+	6. New-Object
 
 
 
