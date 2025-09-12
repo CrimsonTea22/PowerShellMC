@@ -152,9 +152,7 @@ Use Case:
 
     If it doesn't exist, tell the user that it doesn't exist; maybe create it or you typed it wrongly.
 #>
-
 #end
-
 
 
 
@@ -172,13 +170,11 @@ $myHashTable = @{
 $myHashTable.ContainsValue(100)
 $myHashTable.ContainsValue(2)
 $myHashTable.ContainsValue($true)
-
 #end
 
 
 
 # Example 9: Duplicate Keys aren't allowed - Keys are completely unique; values don't need to be.
-
 
 Set-StrictMode -Version Latest
 Set-StrictMode Off
@@ -195,7 +191,6 @@ $myHashTable = @{
 
 $myHashTable.ContainsKey('name2')
 $myHashTable.ContainsKey('key3')
-
 
 <#
 
@@ -216,8 +211,7 @@ hashtable use case :
 
 
 
-# Example 10: Add values to hashtable 1
-
+# Example 10: Adding keys and values to hashtable 1 - Method: Add
 
 $myHashTable = @{
     key1 = 100
@@ -230,14 +224,97 @@ $myHashTable = @{
 
 $myHashTable.Add('','') # syntax
 
-$myHashTable.Add('key4','test to add function')
+$myHashTable.Add('key4','added via add function')
+
+# compiled
+$myHashTable.Add("test1","Add Method")
+$myHashTable["test2"]="square bracket"
+$myHashTable.test2="Dot Notation"
 
 $myHashTable
-
 #end
 
 
 
+
+# Example 11: Adding keys and values to hashtable 2 - Square Brackets
+
+$myHashTable = @{
+    key1 = 100
+    apple = 2.34
+    name = "Cristine"
+    key2 = 200
+    name2 = "Cristine"
+    key3 = $true
+}
+
+$myHashTable['key6']="Added via square bracket"
+
+$myHashTable
+#end
+
+
+
+
+# Example 12: Adding keys and values to hashtable 3 - Dot Notation
+
+$myHashTable = @{
+    key1 = 100
+    apple = 2.34
+    name = "Cristine"
+    key2 = 200
+    name2 = "Cristine"
+    key3 = $true
+}
+
+$myHashTable.key7 = "Added via dot notation"
+
+$myHashTable
+
+<#
+
+NOTE: Keys and Values will be added in an arbitrary order.
+
+#>
+#end
+
+
+
+
+# Example 13: Changing Values
+
+$myHashTable = @{
+    key1 = 100
+    apple = 2.34
+    name = "Cristine"
+    key2 = 200
+    name2 = "Cristine"
+    key3 = $true
+}
+
+$myHashTable.apple = 3.56
+
+$myHashTable
+#end
+
+
+
+
+# Example 14: Removing Values
+
+$myHashTable = @{
+    key1 = 100
+    apple = 2.34
+    name = "Cristine"
+    key2 = 200
+    name2 = "Cristine"
+    key3 = $true
+}
+
+$myHashTable.Remove("key1")
+
+$myHashTable
+#end
 
 
 
@@ -252,6 +329,8 @@ $myArray = @( "A", "B", "C" )
 $myArray = $myArray + "D"
 
 $myArray += "DE"
+
+$myArray = $myArray -ne "A"
 
 $myArray
 
